@@ -55,3 +55,58 @@ cylinder r h =
  let sideArea = 2 * pi * r * h
      topArea= pi * r ^ 25
  in sideArea + 2 * topArea
+
+head' :: [a] -> a  
+head' [] = error "No head for empty lists!"  
+head' (x:_) = x  
+
+head2 :: [a] -> a  
+head2 xs = case xs of [] -> error "No head for empty lists!"  
+                      (x:_) -> x  
+
+describeList :: [a] -> String
+describeList xs = "The list is " ++ case xs of [] -> "empty list"
+                                               [x] -> "a Singleton list"
+                                               xs -> "a longer list" 
+
+describeList2 :: [a] -> String  
+describeList2 xs = "The list is " ++ what xs  
+    where what [] = "empty."  
+          what [x] = "a singleton list."  
+          what xs = "a longer list."
+
+maximum' :: (Ord a) => [a] -> a  
+maximum' [] = error "maximum of empty list"  
+maximum' [x] = x  
+maximum' (x:xs)   
+    | x > maxTail = x  
+    | otherwise = maxTail  
+    where maxTail = maximum' xs  
+
+maximum1 :: (Ord a) => [a] -> a  
+maximum1 [] = error "maximum of empty list"  
+maximum1 [x] = x  
+maximum1 (x:xs) = max x (maximum' xs) 
+
+replicate' :: (Num i, Ord i) => i -> a -> [a]  
+replicate' n x  
+    | n <= 0    = []  
+    | otherwise = x:replicate' (n-1) x  
+
+take' :: (Num i, Ord i) => i -> [a] -> [a]  
+take' n _  
+    | n <= 0   = []  
+take' _ []     = []  
+take' n (x:xs) = x : take' (n-1) xs 
+
+reverse' :: [a] -> [a]  
+reverse' [] = []  
+reverse' (x:xs) = reverse' xs ++ [x]  
+
+repeat' :: a -> a
+repeat' x = x:repeat' x
+
+zip' :: [a] -> [b] -> [(a,b)]  
+zip' _ [] = []  
+zip' [] _ = []  
+zip' (x:xs) (y:ys) = (x,y):zip' xs ys  
